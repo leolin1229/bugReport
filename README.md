@@ -18,7 +18,7 @@
 
 1. 创建mongodb数据库
 
- 默认表名是**bug**，可在[./models/db.js](https://github.com/leolin1229/bugReport/blob/master/models/db.js)修改
+ 默认表名是**bug**，可在`vi ./models/db.js`修改
  ```bash
  use bug
  ```
@@ -33,7 +33,7 @@
 
 ### 客户端JS(支持IE8+)
 
-客户端js位置`./public/javascripts/bug.js`，该js符合UMD规范，可使用`<script>`引入也可做成模块require引入。
+客户端js位置`vi ./public/javascripts/bug.js`，该js符合UMD规范，可使用`<script>`引入也可做成模块require引入。
 
 #### 参数
 
@@ -64,6 +64,10 @@ row | Number | js错误列数
 
 **以script全局引入为例：**
 
+```html
+<script type="text/javascript" src="http://your.website.com/javascripts/bug.js"></script>
+```
+
 **主动上报**
 
 ``` javascript
@@ -71,7 +75,7 @@ row | Number | js错误列数
 	var bugReport = window.bugReport;
 
 	bugReport.init({
-		url: 'http://bug.starzone.kankan.com/report',
+		url: 'http://your.website.com/report',
 		random: 0.5,
 		ignore: [/Script error/i, /Type error/i],
 		onReport: function () { console.log('bingo!'); },
@@ -95,7 +99,7 @@ row | Number | js错误列数
 var bugReport = require("kk_bugReport");
 
 bugReport.init({
-	url: 'http://bug.starzone.kankan.com/report',
+	url: 'http://your.website.com/report',
 	random: 0.5,
 	ignore: [/Script error/i, /Type error/i],
 	onReport: function () { console.log('bingo!'); }
