@@ -31,6 +31,8 @@
 
 3. 访问 http://127.0.0.1:3000 即可进入错误上报管理系统查看log，部署到外网时可使用nginx反向代理端口方法。
 
+4. 可选择运行[定时清log数据脚本](https://github.com/leolin1229/crontab4bugReport)
+
 ### 客户端JS(支持IE8+)
 
 客户端js位置`vi ./public/javascripts/bug.js`，该js符合UMD规范，可使用`<script>`引入也可做成模块require引入。
