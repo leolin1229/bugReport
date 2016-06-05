@@ -17,15 +17,13 @@
 ### 服务端
 
 1. 创建mongodb数据库
-默认表名是**bug**，可在[./models/db.js](https://github.com/leolin1229/bugReport/blob/master/models/db.js)修改
 
+默认表名是**bug**，可在[./models/db.js](https://github.com/leolin1229/bugReport/blob/master/models/db.js)修改
 ```bash
 use bug
 ```
 
 2. 创建nodejs守护进程
-
-
 ```bash
 pm2 start pm2.release.config.json
 ```
