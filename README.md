@@ -6,7 +6,11 @@
 1. [mongodb](https://www.mongodb.com/cn) v3.2+
 2. [nodejs](https://nodejs.org/) v4.4.2+
 3. [pm2](https://github.com/Unitech/pm2) latest
-4. nginx/Apache等服务器软件，这里推荐nginx作为反向代理服务器
+4. nginx/Apache等服务器软件，推荐nginx作为反向代理服务器
+
+## Demo
+
+![](http://ww4.sinaimg.cn/large/0060lm7Tgw1f4kpuxytx1j31kw0zkn6p.jpg)
 
 ## 运行
 
@@ -19,7 +23,9 @@
 ```bash
 use bug
 ```
+
 2. 创建nodejs守护进程
+
 
 ```bash
 pm2 start pm2.release.config.json
@@ -29,7 +35,7 @@ pm2 start pm2.release.config.json
 
 ### 客户端JS(支持IE8+)
 
-客户端js位置**./public/javascripts/bug.js**，该js符合UMD规范，可使用`<script>`引入也可做成模块require引入。
+客户端js位置`./public/javascripts/bug.js`，该js符合UMD规范，可使用`<script>`引入也可做成模块require引入。
 
 #### 参数
 
@@ -103,7 +109,7 @@ console.log(a); // a未定义
 #### 说明
 
 1. 主动上报需要手动调用report方法，一般用在try catch块和ajax/jsonp的回调函数里；
-2. 被动上报可监听所有window.onerror能捕获的错误；
+2. 被动上报可监听所有window.onerror能捕获的错误(语法错误、运行时错误)；
 3. 支持根据map文件查询原文件错误信息，要求map文件和js文件必须同级目录，**建议开发时使用未压缩版的js以方便压缩后定位**，如jQuery/Zepto的未压缩版。
 
 ## Changlog
@@ -114,4 +120,4 @@ console.log(a); // a未定义
 
 ## License
 
-MIT.
+[MIT](https://github.com/leolin1229/bugReport/blob/master/LICENSE).
