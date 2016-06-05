@@ -17,8 +17,7 @@
 ### 服务端
 
 1. 创建mongodb数据库
-
-默认表名是**bug**
+默认表名是**bug**，可在[./models/db.js](https://github.com/leolin1229/bugReport/blob/master/models/db.js)修改
 
 ```bash
 use bug
