@@ -96,16 +96,18 @@ row | Number | js错误列数
 **被动上报**
 
 ``` javascript
-var bugReport = require("kk_bugReport");
+(function(window) {
+	var bugReport = window.bugReport;
 
-bugReport.init({
-	url: 'http://your.website.com/report',
-	random: 0.5,
-	ignore: [/Script error/i, /Type error/i],
-	onReport: function () { console.log('bingo!'); }
-});
+	bugReport.init({
+		url: 'http://your.website.com/report',
+		random: 0.5,
+		ignore: [/Script error/i, /Type error/i],
+		onReport: function () { console.log('bingo!'); }
+	});
 
-console.log(a); // a未定义
+	console.log(a); // a未定义，自动上报到服务器
+})(window);
 ```
 
 #### 说明
