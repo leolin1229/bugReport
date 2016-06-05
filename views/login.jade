@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  .container
+    h1 登录
+    br
+    form(role='form', action="/login",method="post", style='max-width: 300px;')
+      .form-group
+          input.form-control#JS_username(type='text', name="username", placeholder='用户名', required='required')
+      .form-group
+        input.form-control#JS_password(type='password', name="password", placeholder='密码', required='required')
+      button.btn.btn-default#JS_loginBtn(type='submit') 登录 
+      button.btn.btn-primary(type='reset', style='margin-left: 10px;') 清空

@@ -1,0 +1,12 @@
+{
+  "name": "bugReport",
+  "version": "1.0.0",
+  "description": "前端错误上报js",
+  "main": "index.js",
+  "keywords": [
+    "js"
+  ],
+  "author": {
+    "name": "leolin"
+  }
+}

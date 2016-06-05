@@ -1,0 +1,12 @@
+{
+	"apps" : [{
+		"name"        : "server for bugReport",
+		"script"      : "bin/www",
+		"log_date_format"  : "YYYY-MM-DD HH:mm:SS",
+		"watch"      :  false,
+		"ignore_watch" : ["node_modules", "src"],
+		"env": {
+			"NODE_ENV": "production"
+		}
+	}]
+}
