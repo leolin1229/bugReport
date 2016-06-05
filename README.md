@@ -18,15 +18,16 @@
 
 1. 创建mongodb数据库
 
-默认表名是**bug**，可在[./models/db.js](https://github.com/leolin1229/bugReport/blob/master/models/db.js)修改
-```bash
-use bug
-```
+ 默认表名是**bug**，可在[./models/db.js](https://github.com/leolin1229/bugReport/blob/master/models/db.js)修改
+ ```bash
+ use bug
+ ```
 
 2. 创建nodejs守护进程
-```bash
-pm2 start pm2.release.config.json
-```
+
+ ```bash
+ pm2 start pm2.release.config.json
+ ```
 
 3. 访问 http://127.0.0.1:3000 即可进入错误上报管理系统查看log，部署到外网时可使用nginx反向代理端口方法。
 
