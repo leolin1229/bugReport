@@ -29,7 +29,7 @@ pm2 start pm2.release.config.json
 
 ### 客户端JS(支持IE8+)
 
-客户端js位置**./public/javascripts/bug.js**，该js符合UMD规范，可使用<script>引入也可做成模块require引入。
+客户端js位置**./public/javascripts/bug.js**，该js符合UMD规范，可使用`<script>`引入也可做成模块require引入。
 
 #### 参数
 
