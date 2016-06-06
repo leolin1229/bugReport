@@ -1,12 +1,22 @@
 # bugReport
 前端错误监控
 
+![](http://ww2.sinaimg.cn/large/0060lm7Tgw1f4lwnay1g9j30e80e8q4i.jpg)
+
+## 特点
+
+1. 基于nodejs全栈开发；
+2. 集合主动上报与被动监听错误；
+3. 客户端JS文件体积小，gzip后约1.6KB；
+4. 配套可视化日志管理系统；
+5. 提供sourcemap支持。
+
 ## 安装
 
 1. [mongodb](https://www.mongodb.com/cn) v3.2+
 2. [nodejs](https://nodejs.org/) v4.4.2+
 3. [pm2](https://github.com/Unitech/pm2) latest
-4. nginx/Apache，推荐nginx作为反向代理服务器
+4. nginx/Apache等，推荐nginx作为反向代理服务器
 
 ## Demo
 
@@ -23,12 +33,13 @@
  开启mongo客户端命令行模式，执行：
 
  1) 创建名为bug的数据库
+
  ```bash
  use bug
  ```
 
- 2) 插入超级管理员账号（用户名：admin，密码：111111）
- 【注意：只有完成该步骤数据库才是创建成功】
+ 2) 插入超级管理员账号（用户名：admin，密码：111111）【注意：只有完成该步骤数据库才是创建成功】
+
  ```bash
  db.accounts.insert({
     "salt": "6de1a85f69db9bf65b016fc3bf6d6cecc3b64cc2e6741ea332afb6e115d1b53d",
@@ -40,19 +51,25 @@
  })
  ```
 
-2. 创建nodejs守护进程
+2. 安装npm模块依赖
+
+ ```bash
+ npm install
+ ```
+
+3. 创建nodejs守护进程
 
  ```bash
  pm2 start pm2.release.config.json
  ```
 
-3. 访问 http://127.0.0.1:3000 即可进入错误上报管理系统查看log，部署到外网时可使用nginx反向代理端口方法。
+4. 访问 http://127.0.0.1:3000 即可进入错误上报管理系统查看log，部署到外网时可使用nginx反向代理端口方法。
 
-4. 可选择运行[定时清log数据脚本](https://github.com/leolin1229/crontab4bugReport)
+5. 可选择运行[定时清log脚本](https://github.com/leolin1229/crontab4bugReport)
 
 ### 客户端JS(支持IE8+)
 
-客户端js位置`vi ./public/javascripts/bug.js`，该js符合UMD规范，可使用`<script>`引入也可做成模块require引入。
+客户端js源码位于`./public/src/my_modules/bugReport/index.js`，生成后文件位于`./public/javascripts/bug.js`，该js符合UMD规范，可使用`<script>`引入也可做成模块require引入。
 
 #### 参数
 
@@ -133,7 +150,7 @@ row | Number | js错误列数
 
 1. 主动上报需要手动调用report方法，一般用在try catch块和ajax/jsonp的回调函数里；
 2. 被动上报可监听所有window.onerror能捕获的错误(语法错误、运行时错误)；
-3. 支持根据map文件查询原文件错误信息，要求map文件和js文件必须同级目录，**建议开发时使用未压缩版的js以方便压缩后定位**，如jQuery/Zepto的未压缩版。
+3. 支持根据map文件查询原文件错误信息，要求map文件和js文件**必须同级目录**，**建议开发时使用未压缩版的js以方便压缩后定位**，如jQuery/Zepto的未压缩版。
 
 ## Changlog
 
