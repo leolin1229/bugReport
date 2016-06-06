@@ -58,10 +58,9 @@
 					{ text: '目标网页', value: '1' },
 					{ text: '目标文件', value: '2' },
 					{ text: '分辨率', value: '3' },
-					{ text: '用户id', value: '4' },
-					{ text: 'UA', value: '5' },
-					{ text: 'IP', value: '6' },
-					{ text: '页面来路', value: '7' }
+					{ text: 'UA', value: '4' },
+					{ text: 'IP', value: '5' },
+					{ text: '页面来路', value: '6' }
 	    	    ],
 		    	timeoption: {
 	    	        type: 'min',

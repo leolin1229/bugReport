@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var Log = require('../models/log_model.js');
 
-var map = ['message', 'refer_url', 'source_file', 'resolution', 'user_id', 'user_agent', 'ip', 'from'];
+var map = ['message', 'refer_url', 'source_file', 'resolution', 'user_agent', 'ip', 'from'];
 
 function search (options) {
 	options = options || {};
@@ -13,7 +13,7 @@ function search (options) {
     var condition = {};  // 条件
     var fields = {'_id': 0, '__v': 0};  // 不读取的字段
     var skipnum = (currentPage - 1) * pageSize;   // 跳过数
-    
+
     // 有日期
     if (options.from && options.to) {
         if (options.from <= options.to) {
