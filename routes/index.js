@@ -14,7 +14,7 @@ router.get('/', function (req, res) {
 
 router.get('/register', function(req, res) {
 	// 彩蛋
-	if (req.query.egg == 1 || req.isAuthenticated()) {
+	if (req.isAuthenticated()) {
 		res.render('register', {});
 	} else {
 		res.redirect('/login');
@@ -31,18 +31,18 @@ router.post('/register', function(req, res) {
 		if (req.isAuthenticated()) {
 			// 只有超级管理员才能注册普通管理员
 			if (req.user.type == 1) {
-				Account.find({username: req.body.username}).exec(function (err, resp) {
+				Account.find({username: username}).exec(function (err, resp) {
 				    if (err) {
 				        console.error('db error:' + String(err));
 				        res.status(200).send(JSON.stringify({rtn: -1, message: 'register error' + String(err)}));
 				    } else {
 				        if (!resp.length) {
-				        	Account.register(new Account({ 
-				        		username : req.body.username,
+				        	Account.register(new Account({
+				        		username : username,
 				        		ip: req.headers['x-forwarded-for'] || req.connection.remoteAddress,
 				        		create_time: Date.now(),
 				        		type: 2
-				        	}), req.body.password, function(error, account) {
+				        	}), password, function(error, account) {
 				        	    if (account){
 				        	    	res.status(200).send(JSON.stringify({rtn: 0}));
 				        	    } else {
