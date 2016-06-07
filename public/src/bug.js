@@ -1,0 +1,1 @@
+window.bugReport = require('bugReport');

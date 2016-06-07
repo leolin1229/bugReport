@@ -86,7 +86,7 @@
 					if (options[k]) config[k] = options[k];
 				}
 			}
-			bugReport.bind();
+			bugReport._bind();
 		},
 		report: function (data) {
 			if (config.debug) return ;
@@ -101,7 +101,7 @@
 		    	data: data
 		    });
 		},
-		bind: function () {
+		_bind: function () {
 			if (config.debug) return ;
 
 			var checkIgnoreMsg = function (msg) {
@@ -126,7 +126,7 @@
 		            data.row = row;
 		            data.col = col;
 		            if (!!error && !!error.stack) {
-		            	// 如果有堆栈信息，Safari没有error这个参数
+		            	// 添加堆栈信息，Safari没有error这个参数
 		            	data.msg = error.stack.toString();
 		            } else if (!!arguments.callee) {
 		            	// 尝试通过callee获取堆栈信息
@@ -147,8 +147,8 @@
 		            // 上报啦
 		            var date = new Date();
 		            var seconds = date.getSeconds() + 1; // 1 - 60
-		            var bingo = parseInt(60 * config.random); // 0 - 60
-		            if (1 <= seconds && seconds <= bingo) bugReport.report(data);
+		            var max = parseInt(60 * config.random); // 0 - 60
+		            if (1 <= seconds && seconds <= max) bugReport.report(data);
 		        }, 0);
 
 		        return true;

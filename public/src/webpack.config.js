@@ -4,7 +4,8 @@ module.exports = {
     // 入口
     entry: {
         index: './index.js',
-        user: './user.js'
+        user: './user.js',
+        bug: './bug.js'
     },
     // 输出
     output: {

@@ -1,6 +1,6 @@
 {
   "name": "bugReport",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "前端错误上报js",
   "main": "index.js",
   "keywords": [
