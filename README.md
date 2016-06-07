@@ -6,7 +6,7 @@
 ## 特点
 
 1. 基于nodejs全栈开发；
-2. 集合主动上报与被动监听错误；
+2. 集合主动上报与被动监测错误；
 3. 客户端JS文件体积小，gzip后约1.6KB；
 4. 配套可视化日志管理系统；
 5. 提供sourcemap支持。
@@ -77,7 +77,7 @@
 
 ##### 初始化 init(object)
 
-**【该初始化方法必须在其他方法之前调用一次！】**
+**【该初始化方法必须在其他方法之前调用一次，并且需要独立引用，不能和待监测代码处在同一代码块，见用法例子】**
 
 参数名 | 类型 | 备注
 ------|--------|-----------
@@ -102,22 +102,22 @@ row | Number | js错误列数
 
 ```html
 <script type="text/javascript" src="http://your.website.com/javascripts/bug.js"></script>
-```
+<script type="text/javascript">
+	// 不能和待监测代码处在同一代码块
+	(function(window) {
+		var bugReport = window.bugReport;
 
-**主动上报**
-
-``` javascript
-(function(window) {
-	var bugReport = window.bugReport;
-
-	bugReport.init({
-		url: 'http://your.website.com/report',
-		random: 0.5,
-		ignore: [/Script error/i, /Type error/i],
-		onReport: function () { console.log('bingo!'); },
-		debug: false
-	});
-
+		bugReport.init({
+			url: 'http://your.website.com/report',
+			random: 0.5,
+			ignore: [/Script error/i, /Type error/i],
+			onReport: function () { console.log('bingo!'); },
+			debug: false
+		});
+	})(window);
+</script>
+<script type="text/javascript">
+	// 主动上报
 	try {
 		console.log(a); // a未定义
 	} catch (err) {
@@ -126,24 +126,10 @@ row | Number | js错误列数
 			col: 13
 		});
 	}
-})(window);
-```
 
-**被动上报**
-
-``` javascript
-(function(window) {
-	var bugReport = window.bugReport;
-
-	bugReport.init({
-		url: 'http://your.website.com/report',
-		random: 0.5,
-		ignore: [/Script error/i, /Type error/i],
-		onReport: function () { console.log('bingo!'); }
-	});
-
-	console.log(a); // a未定义，自动上报到服务器
-})(window);
+	// 被动上报
+	console.log(b); // b未定义，自动上报到服务器
+</script>
 ```
 
 #### 说明
@@ -153,6 +139,10 @@ row | Number | js错误列数
 3. 支持根据map文件查询原文件错误信息，要求map文件和js文件**必须同级目录**，**建议开发时使用未压缩版的js以方便压缩后定位**，如jQuery/Zepto的未压缩版。
 
 ## Changlog
+
+#### v1.0.2(2016-06-07)
+
+- 修复客户端JS在IE下无法获取错误信息问题
 
 #### v1.0.1(2016-06-06)
 

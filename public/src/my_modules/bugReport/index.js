@@ -117,14 +117,15 @@
 		        	return true;
 		        }
 
+		        var evt = global.event || null;
+
 		        setTimeout(function () {
 		            var data = {};
-		            // 某些浏览器不支持col
-		            col = col || (global.event && global.event.errorCharacter) || 0;
-
+		            // IE11跟IE10以下的浏览器event对象不一样
+		            data.col = col || (evt && evt.errorCharacter || evt.colno) || 0;
+		            data.row = row || (evt && evt.errorLine || evt.lineno) || 0;
 		            data.src = src;
-		            data.row = row;
-		            data.col = col;
+
 		            if (!!error && !!error.stack) {
 		            	// 添加堆栈信息，Safari没有error这个参数
 		            	data.msg = error.stack.toString();
@@ -142,8 +143,9 @@
 		            		f = f.caller;
 		            	};
 		            	ext = ext.join(',');
-		            	data.msg = error.stack.toString();
+		            	data.msg = ext || (evt && evt.errorMessage || evt.message) || '';
 		            }
+		            evt = null;
 		            // 上报啦
 		            var date = new Date();
 		            var seconds = date.getSeconds() + 1; // 1 - 60
