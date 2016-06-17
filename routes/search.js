@@ -26,7 +26,7 @@ function search (options) {
 
     // 有关键字
     if (typeof options.field == 'number' && !Number.isNaN(options.field) && options.field < map.length  && options.keyword) {
-    	condition[map[options.field]] = new RegExp(options.keyword, 'i');
+    	condition[map[options.field]] = new RegExp(options.keyword.replace(/([.?*+^$[\]\\(){}|-])/g, '\\$1'), 'i');
     }
 
     Log.find(condition, fields).skip(skipnum).limit(pageSize).sort(sort).exec(function (err, res) {
