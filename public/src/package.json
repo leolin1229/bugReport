@@ -22,7 +22,6 @@
     "html-loader": "^0.4.3",
     "less": "^2.6.0",
     "less-loader": "^2.2.2",
-    "moment": "^2.13.0",
     "postcss": "^5.0.16",
     "style-loader": "^0.13.0",
     "url-loader": "^0.5.7",

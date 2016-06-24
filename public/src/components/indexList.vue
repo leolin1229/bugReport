@@ -73,7 +73,6 @@
 </template>
 
 <script>
-	var moment = require('moment');
 	var date = new Date();
 
 	function concatUrlParam(url, obj) {
@@ -190,7 +189,7 @@
 		},
 		filters: {
 			timeFormat: function (val) {
-				return moment(val).format('LLL');
+				return new Date(+val).toLocaleString();
 			},
 			truncat: function (val) {
 			    return val.substr(0, 150);
