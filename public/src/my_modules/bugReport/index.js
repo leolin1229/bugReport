@@ -79,6 +79,64 @@
 	    }
 	}
 
+	var bindEvent = function (cb) {
+    	if (config.debug) return ;
+
+    	cb = cb || function () {};
+
+    	var checkIgnoreMsg = function (msg) {
+    	    for (var i = 0, len = config.ignore.length; i < len; i++) {
+    	    	if (config.ignore[i].test(msg)) return true;
+    	    }
+    	    return false;
+    	};
+
+        global.onerror = function (msg, src, row, col, error) {
+        	// 缺少src不上报
+            if (checkIgnoreMsg(msg) || !src) {
+            	return true;
+            }
+
+            var evt = global.event || null;
+
+            setTimeout(function () {
+                var data = {};
+                // IE11跟IE10以下的浏览器event对象不一样
+                data.col = col || (evt && evt.errorCharacter || evt.colno) || 0;
+                data.row = row || (evt && evt.errorLine || evt.lineno) || 0;
+                data.src = src;
+
+                if (!!error && !!error.stack) {
+                	// 添加堆栈信息，Safari没有error这个参数
+                	data.msg = error.stack.toString();
+                } else if (!!arguments.callee) {
+                	// 尝试通过callee获取堆栈信息
+                	var ext = [];
+                	var f = arguments.callee.caller, c = 3;
+                	// 只取三层堆栈信息
+                	while (f && --c) {
+                		ext.push(f.toString());
+                		if (f === f.caller) {
+                			// 出现环
+                			break;
+                		}
+                		f = f.caller;
+                	};
+                	ext = ext.join(',');
+                	data.msg = ext || (evt && evt.errorMessage || evt.message) || '';
+                }
+                evt = null;
+                // 上报
+                var date = new Date();
+                var seconds = date.getSeconds() + 1; // 计算概率
+                var max = parseInt(60 * config.random);
+                if (1 <= seconds && seconds <= max) cb(data);
+            }, 0);
+
+            return true;
+        };
+	};
+
 	var bugReport = {
 		init: function (options) {
 			if (objToString.call(options).toLowerCase() == '[object object]') {
@@ -86,7 +144,10 @@
 					if (options[k]) config[k] = options[k];
 				}
 			}
-			bugReport._bind();
+
+			bindEvent(function (data) {
+			    bugReport.report(data);
+			});
 		},
 		report: function (data) {
 			if (config.debug) return ;
@@ -100,61 +161,6 @@
 		    	method: 'POST',
 		    	data: data
 		    });
-		},
-		_bind: function () {
-			if (config.debug) return ;
-
-			var checkIgnoreMsg = function (msg) {
-			    for (var i = 0, len = config.ignore.length; i < len; i++) {
-			    	if (config.ignore[i].test(msg)) return true;
-			    }
-			    return false;
-			};
-
-		    global.onerror = function (msg, src, row, col, error) {
-		    	// 缺少src不上报
-		        if (checkIgnoreMsg(msg) || !src) {
-		        	return true;
-		        }
-
-		        var evt = global.event || null;
-
-		        setTimeout(function () {
-		            var data = {};
-		            // IE11跟IE10以下的浏览器event对象不一样
-		            data.col = col || (evt && evt.errorCharacter || evt.colno) || 0;
-		            data.row = row || (evt && evt.errorLine || evt.lineno) || 0;
-		            data.src = src;
-
-		            if (!!error && !!error.stack) {
-		            	// 添加堆栈信息，Safari没有error这个参数
-		            	data.msg = error.stack.toString();
-		            } else if (!!arguments.callee) {
-		            	// 尝试通过callee获取堆栈信息
-		            	var ext = [];
-		            	var f = arguments.callee.caller, c = 3;
-		            	// 只取三层堆栈信息
-		            	while (f && --c) {
-		            		ext.push(f.toString());
-		            		if (f === f.caller) {
-		            			// 出现环
-		            			break;
-		            		}
-		            		f = f.caller;
-		            	};
-		            	ext = ext.join(',');
-		            	data.msg = ext || (evt && evt.errorMessage || evt.message) || '';
-		            }
-		            evt = null;
-		            // 上报啦
-		            var date = new Date();
-		            var seconds = date.getSeconds() + 1; // 1 - 60
-		            var max = parseInt(60 * config.random); // 0 - 60
-		            if (1 <= seconds && seconds <= max) bugReport.report(data);
-		        }, 0);
-
-		        return true;
-		    };
 		}
 	};
 
