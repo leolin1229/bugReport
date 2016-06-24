@@ -1,6 +1,6 @@
 {
   "name": "server-for-bugReport",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "scripts": {
     "start": "node ./bin/www"
   },
