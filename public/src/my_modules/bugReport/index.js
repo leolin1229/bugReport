@@ -127,10 +127,7 @@
                 }
                 evt = null;
                 // 上报
-                var date = new Date();
-                var seconds = date.getSeconds() + 1; // 计算概率
-                var max = parseInt(60 * config.random);
-                if (1 <= seconds && seconds <= max) cb(data);
+                if (Math.random() < config.random) cb(data);
             }, 0);
 
             return true;
