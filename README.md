@@ -81,24 +81,24 @@
 
 1. 初始化 init(object)
 
-**【该初始化方法必须在其他方法之前调用一次，并且需要独立引用，不能和待监测代码处在同一代码块，见用法例子】**
+ **【该初始化方法必须在其他方法之前调用一次，并且需要独立引用，不能和待监测代码处在同一代码块，见用法例子】**
 
-参数名 | 类型 | 备注
-------|--------|-----------
-url | String | 上报接口地址（默认[http://127.0.0.1:3000/report](http://127.0.0.1:3000/report)）
-random | Number | 上报概率，1~0 之间数值，1为100%上报（默认 1）
-ignore | Array | 需要忽略错误的正则数组（默认[/Script error/i]）
-onReport | Function | 上报完成后回调
-debug | Boolean | 是否开发环境，true - 开发环境不上报，false - 生产环境上报（默认）
+ 参数名 | 类型 | 备注
+ ------|--------|-----------
+ url | String | 上报接口地址（默认[http://127.0.0.1:3000/report](http://127.0.0.1:3000/report)）
+ random | Number | 上报概率，1~0 之间数值，1为100%上报（默认 1）
+ ignore | Array | 需要忽略错误的正则数组（默认[/Script error/i]）
+ onReport | Function | 上报完成后回调
+ debug | Boolean | 是否开发环境，true - 开发环境不上报，false - 生产环境上报（默认）
 
 2. 主动上报 report(object)
 
-参数名 | 类型 | 备注
-------|--------|-----------
-msg | String | 错误信息
-src | String | 错误文件名
-col | Number | js错误行数
-row | Number | js错误列数
+ 参数名 | 类型 | 备注
+ ------|--------|-----------
+ msg | String | 错误信息
+ src | String | 错误文件名
+ col | Number | js错误行数
+ row | Number | js错误列数
 
 #### 用法
 
