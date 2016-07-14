@@ -75,11 +75,11 @@
 
 客户端js源码位于`./public/src/my_modules/bugReport/index.js`，生成后文件位于`./public/javascripts/bug.js`，该js符合UMD规范，可使用`<script>`引入也可做成模块require引入。
 
-#### 参数
+#### API
 
 该模块暴露了两个方法：
 
-##### 初始化 init(object)
+1. 初始化 init(object)
 
 **【该初始化方法必须在其他方法之前调用一次，并且需要独立引用，不能和待监测代码处在同一代码块，见用法例子】**
 
@@ -91,7 +91,7 @@ ignore | Array | 需要忽略错误的正则数组（默认[/Script error/i]）
 onReport | Function | 上报完成后回调
 debug | Boolean | 是否开发环境，true - 开发环境不上报，false - 生产环境上报（默认）
 
-##### 主动上报 report(object)
+2. 主动上报 report(object)
 
 参数名 | 类型 | 备注
 ------|--------|-----------
