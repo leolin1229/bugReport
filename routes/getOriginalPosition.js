@@ -21,7 +21,7 @@ router.get('/', function(req, res, next) {
 
 			    		res.status(200).send(JSON.stringify({rtn: 0, message: result}));
 			    	} catch (e) {
-			    		res.status(200).send(JSON.stringify({rtn: -1, message: 'the content of .map file is not json!'}));
+			    		res.status(200).send(JSON.stringify({rtn: -1, message: 'the contents of *.map file is not json format!'}));
 			    	}
 			    } else {
 			    	res.status(200).send(JSON.stringify({rtn: response.statusCode, message: response.statusMessage}));
