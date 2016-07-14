@@ -1,6 +1,6 @@
 # bugReport
 
-## 前端错误监控
+## 前端错误上报解决方案
 
 ![](http://ww2.sinaimg.cn/large/0060lm7Tgw1f4lwnay1g9j30e80e8q4i.jpg)
 
