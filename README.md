@@ -67,7 +67,7 @@
  pm2 start pm2.release.config.json
  ```
 
-4. 访问 [http://127.0.0.1:3000/report](http://127.0.0.1:3000/report) 即可进入错误上报管理系统查看log，部署到外网时可使用nginx反向代理端口方法。
+4. 访问 [http://127.0.0.1:3000/](http://127.0.0.1:3000/) 即可进入错误上报管理系统查看log，部署到外网时可使用nginx反向代理端口方法，测试环境建议配域名host访问。
 
 5. 可选择运行[定时清log脚本](https://github.com/leolin1229/crontab4bugReport)
 
@@ -85,7 +85,7 @@
 
  参数名 | 类型 | 备注
  ------|--------|-----------
- url | String | 上报接口地址（默认[http://127.0.0.1:3000/report](http://127.0.0.1:3000/report)）
+ url | String | 上报接口地址（默认[http://127.0.0.1:3000/report](http://127.0.0.1:3000/report)，建议修改成域名）
  random | Number | 上报概率，1~0 之间数值，1为100%上报（默认 1）
  ignore | Array | 需要忽略错误的正则数组（默认[/Script error/i]）
  onReport | Function | 上报完成后回调
