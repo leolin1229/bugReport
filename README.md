@@ -51,7 +51,20 @@
     "type": 1
  })
  ```
- 3) 修改用户权限
+
+ 3) 插入log有效期配置表
+
+ 用于[定时清log脚本](https://github.com/leolin1229/crontab4bugReport)读取有效期时间配置。
+ ```bash
+ db.settings.insert({
+    "id": 1,
+    "expired_time": 86400,
+    "edit_user": "admin",
+    "edit_time": 1465206116175
+ })
+ ```
+
+ 4) 修改用户权限
  
  进入mongodb的accounts表，修改对应文档数据的type字段即可（type=1，超级管理员；type=2，普通管理员）。
 
@@ -69,7 +82,7 @@
 
 4. 访问 [http://127.0.0.1:3000/](http://127.0.0.1:3000/) 即可进入错误上报管理系统查看log，部署到外网时可使用nginx反向代理端口方法，测试环境建议配域名host访问。
 
-5. 可选择运行[定时清log脚本](https://github.com/leolin1229/crontab4bugReport)
+5. 可选择运行[定时清log脚本](https://github.com/leolin1229/crontab4bugReport)。
 
 ### 客户端JS(支持IE8+)
 
