@@ -92,7 +92,7 @@
 
 该模块暴露了两个方法：
 
-1. 初始化 init(object)
+1. 初始化 init(Object)
 
  **【该初始化方法必须在其他方法之前调用一次，并且需要独立引用，不能和待监测代码处在同一代码块，见用法例子】**
 
@@ -101,17 +101,26 @@
  url | String | 上报接口地址（默认[http://127.0.0.1:3000/report](http://127.0.0.1:3000/report)，建议修改成域名）
  random | Number | 上报概率，1~0 之间数值，1为100%上报（默认 1）
  ignore | Array | 需要忽略错误的正则数组（默认[/Script error/i]）
- onReport | Function | 上报完成后回调
+ onReport | Function | 上报完成回调
+ onError | Function | 网络错误回调
+ onTimeout | Function | 请求超时回调
  debug | Boolean | 是否开发环境，true - 开发环境不上报，false - 生产环境上报（默认）
 
-2. 主动上报 report(object)
+2. 主动上报 report(Object)
 
  参数名 | 类型 | 备注
- ------|--------|-----------
+ ------|--------|--------
  msg | String | 错误信息
  src | String | 错误文件名
  col | Number | js错误行数
  row | Number | js错误列数
+
+ 该方法当产生XMLHttpRequest对象无法捕获的错误时会有返回一个对象，有如下属性：
+
+ 属性名 | 类型 | 备注
+ ------|--------|--------
+ code | Number | 错误码（-1：不支持CORS；-2：没有调用初始化函数）
+ msg | String | 错误信息
 
 #### 用法
 
@@ -138,7 +147,7 @@
 	try {
 		console.log(a); // a未定义
 	} catch (err) {
-		bugReport.report({
+		var res = bugReport.report({
 			msg: String(err),
 			col: 13
 		});
@@ -156,6 +165,12 @@
 3. 支持根据map文件查询原文件错误信息，要求map文件和js文件**必须同级目录**，**建议开发时使用未压缩版的js以方便压缩后定位**，如jQuery/Zepto的未压缩版。
 
 ## Changlog
+#### v1.0.8(2016-07-31)
+- 优化：客户端JS中对xhr对象进行缓存，避免频繁创建对象
+- 添加：客户端JS增加网络错误和请求超时回调函数
+- 添加：客户端JS的report方法的返回值
+- 修复：XSS问题
+- 添加：单元测试
 
 #### v1.0.5(2016-07-07)
 - 优化：客户端概率上报判断逻辑

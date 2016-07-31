@@ -1,21 +1,25 @@
 ;(function (global) {
 	var objToString = Object.prototype.toString;
+
 	var IEVersion = global.navigator.userAgent.match(/msie\s(\d+)/i),
 		IEVersion = (IEVersion && IEVersion.length > 0 && IEVersion[1]),
 		islteIE9 = (!!IEVersion && IEVersion <= 9);
 
-	function createCORSRequest (options) {
-	    var xhr = new global.XMLHttpRequest();
-	    if ('withCredentials' in xhr) {
-	    	xhr.open(options.method, options.url, true);
-	    } else if (global.XDomainRequest) {
-	    	xhr = new global.XDomainRequest();
-	    	xhr.open(options.method, options.url, true);
-	    } else {
-	    	xhr = null;
-	    }
+	var xhr = null;
+	var isInit = false;
+	var noop = function () {};
 
-	    return xhr;
+	function createCORSRequest (options) {
+		if (xhr) {
+			xhr.open(options.method, options.url, true);
+			return ;
+		}
+
+	    xhr = global.XMLHttpRequest ? new global.XMLHttpRequest() : global.XDomainRequest ? new global.XDomainRequest() : null;
+
+	    if (xhr) {
+	    	xhr.open(options.method, options.url, true);
+	    }
 	}
 
 	function concatParams (obj) {
@@ -39,21 +43,28 @@
 	var config = {
 		url: 'http://127.0.0.1:3000/report', // 上报接口地址
 		random: 1, // 上报概率，1~0 之间数值，1为100%上报（默认 1）
-		onReport: function () {}, // 上报完成后回调
-		ignore: [/Script error/i], // 忽略错误
+		onReport: noop, // 上报完成回调
+		onError: noop, // 网络错误回调
+		onTimeout: noop, // 请求超时回调
+		ignore: [/Script error/i], // 忽略上报的错误（元素为正则类型）
 		debug: false // 是否开发环境，true - 开发环境不上报，false - 生产环境上报（默认）
 	};
 
+	// xhr不能捕获的错误会有返回值：
+	// -1：不支持CORS
+	// -2：没有调用初始化函数
 	var xhr2 = function (options) {
-	    if (objToString.call(options).toLowerCase() == '[object object]') {
-	    	if (!options.url) throw new Error('xhr needs param [url]!');
+		if (objToString.call(options).toLowerCase() == '[object object]') {
+	    	if (!isInit) {
+	    		return {code: -2, msg: 'please call [init] function first.'};
+	    	}
 
 	    	options.method = (options.method &&  options.method.toLowerCase()) || 'post';
-	    	var xhr = createCORSRequest(options);
+	    	// var xhr = createCORSRequest(options);
+	    	createCORSRequest(options);
 
 	    	if (!xhr) {
-	    		global.console && console.error('CORS not supported');
-	    		return ;
+	    		return {code: -1, msg: 'CORS is not supported.'};
 	    	}
 
 	    	xhr.onload = function (res) {
@@ -61,11 +72,11 @@
 	    	};
 
 	    	xhr.onerror = function (res) {
-	    	    global.console && console.error(xhr);
+	    		if (config && typeof config.onError == 'function') config.onError(xhr);
 	    	};
 
 	    	xhr.ontimeout = function () {
-	    	    global.console && console.error('report timeout');
+	    	    if (config && typeof config.onTimeout == 'function') config.onTimeout(xhr);
 	    	};
 
 	    	options.method == 'post' && xhr.setRequestHeader && xhr.setRequestHeader('Content-type','application/x-www-form-urlencoded');
@@ -75,14 +86,14 @@
 	    	setTimeout(function () {
 	    		options.data = fixParams(options.data);
 	    	    xhr.send(concatParams(options.data) || null);
-	    	}, 0);
+	    	});
 	    }
 	}
 
 	var bindEvent = function (cb) {
     	if (config.debug) return ;
 
-    	cb = cb || function () {};
+    	cb = cb || noop;
 
     	var checkIgnoreMsg = function (msg) {
     	    for (var i = 0, len = config.ignore.length; i < len; i++) {
@@ -128,7 +139,7 @@
                 evt = null;
                 // 上报
                 if (Math.random() < config.random) cb(data);
-            }, 0);
+            });
 
             return true;
         };
@@ -136,6 +147,8 @@
 
 	var bugReport = {
 		init: function (options) {
+			isInit = true;
+
 			if (objToString.call(options).toLowerCase() == '[object object]') {
 				for (var k in options) {
 					if (options[k]) config[k] = options[k];
@@ -147,13 +160,13 @@
 			});
 		},
 		report: function (data) {
-			if (config.debug) return ;
+			if (config.debug) return {code: -2, msg: 'please close debug mode.'};
 
 			if (!(objToString.call(data).toLowerCase() == '[object object]')) {
 				data = {};
 			}
 
-		    xhr2({
+		    return xhr2({
 		    	url: config.url,
 		    	method: 'POST',
 		    	data: data
