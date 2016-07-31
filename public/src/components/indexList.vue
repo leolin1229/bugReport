@@ -41,30 +41,30 @@
 					<td class="col-md-2" v-else>{{ data.refer_url }}</td>
 					<td class="col-md-2" v-if="data.long_message">
 						<span v-if="!data.long_message.show">
-							{{ data.message | truncat }}
+							{{ data.message | truncat | decode }}
 							<a href="javascript:;" @click="moreMessage(index)">...</a>
 						</span>
 						<span v-else>
-							{{ data.message }}
+							{{ data.message | decode }}
 						</span>
 					</td>
-					<td class="col-md-2" v-else>{{ data.message }}</td>
+					<td class="col-md-2" v-else>{{ data.message | decode }}</td>
 					<td class="col-md-1">
-						{{ data.source_file }}
+						{{ data.source_file | decode }}
 						<span v-if="data.source_file">:{{ data.row_num }}:{{ data.col_num }}</span>
 						<a href="javascript:;" v-if="data.row_num > 0 && data.col_num > 0" @click="parseSourceMap(data)"><img alt="查询原文件错误信息" title="查询原文件错误信息" src="/images/info.png" class="info"></a>
 					</td>
 					<td class="col-md-1">{{ data.resolution }}</td>
 					<td class="col-md-1" v-if="data.long_from">
 						<span v-if="!data.long_from.show">
-							{{ data.from | truncat }}
+							{{ data.from | truncat | decode }}
 							<a href="javascript:;" @click="moreFrom(index)">...</a>
 						</span>
 						<span v-else>
-							{{ data.from }}
+							{{ data.from | decode }}
 						</span>
 					</td>
-					<td class="col-md-1" v-else>{{ data.from }}</td>
+					<td class="col-md-1" v-else>{{ data.from | decode }}</td>
 					<td class="col-md-3">{{ data.user_agent }}</td>
 				</tr>
 			</tbody>
@@ -93,6 +93,19 @@
 
 	    return url + (flag ? arr.join('&') : '?' + arr.join('&'));
 	};
+
+	function  htmlDecode(str) {
+	    var s = '';
+	    if (!str) return '';
+	    s = str.replace(/&amp;/g, "&");
+	    s = s.replace(/&lt;/g, "<");
+	    s = s.replace(/&gt;/g, ">");
+	    s = s.replace(/&nbsp;/g, " ");
+	    s = s.replace(/'/g, "\'");
+	    s = s.replace(/&quot;/g, "\"");
+	    s = s.replace(/<br>/g, String.fromCharCode(10));
+	    return s;
+	}
 
 	module.exports = {
 		props: ['list', 'totalLists'],
@@ -193,6 +206,9 @@
 			},
 			truncat: function (val) {
 			    return val.substr(0, 150);
+			},
+			decode: function (val) {
+			    return htmlDecode(val);
 			}
 		}
 	};
