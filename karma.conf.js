@@ -75,8 +75,8 @@ module.exports = function(config) {
         },
 
         // mobile emulators are really slow
-        captureTimeout: 300000,
-        browserNoActivityTimeout: 300000,
+        captureTimeout: 600000,
+        browserNoActivityTimeout: 600000,
 
         // frameworks to use
         // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
@@ -141,7 +141,7 @@ module.exports = function(config) {
 
         // Concurrency level
         // how many browser should be started simultaneous
-        concurrency: Infinity
+        concurrency: 1
 
         // customLaunchers: {
         //     Chrome_travis_ci: {
