@@ -127,7 +127,8 @@ module.exports = function(config) {
 
         sauceLabs: {
             testName: 'bugReport unit tests',
-            public: 'public'
+            public: 'public',
+            startConnect : false
         },
 
         customLaunchers: customLaunchers,
