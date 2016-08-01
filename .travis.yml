@@ -1,5 +1,9 @@
 language: node_js
 sudo: true
+addons:
+  sauce_connect:
+    username: 'leolin'
+    access_key: '2d69d455-a8ff-45bd-8a93-5ba373ddf6a3'
 node_js:
   - '4.4.2'
 services: mongodb
