@@ -3,7 +3,8 @@
   "version": "1.0.8",
   "scripts": {
     "start": "node ./bin/www",
-    "test": "./node_modules/karma/bin/karma start"
+    "test": "node ./node_modules/.bin/istanbul cover ./node_modules/karma/bin/karma start",
+    "coverage": "cat ./coverage/lcov.info | coveralls"
   },
   "dependencies": {
     "body-parser": "~1.13.2",
@@ -23,6 +24,7 @@
   },
   "devDependencies": {
     "chai": "^3.5.0",
+    "istanbul": "^0.4.4",
     "karma": "^1.1.2",
     "karma-chai": "^0.1.0",
     "karma-chrome-launcher": "^1.0.1",
