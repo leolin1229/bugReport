@@ -8,9 +8,9 @@ module.exports = function(config) {
     basePath: '',
 
     client: {
-        mocha: {
-            timeout: 6000
-        }
+      mocha: {
+        timeout: 6000
+      }
     },
 
     // frameworks to use
@@ -33,7 +33,7 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-        'test/**/*.test.js': ['webpack']
+      'test/**/*.test.js': ['webpack']
     },
 
 
@@ -67,10 +67,21 @@ module.exports = function(config) {
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
-    singleRun: false,
+    singleRun: true,
 
     // Concurrency level
     // how many browser should be started simultaneous
-    concurrency: Infinity
-  })
+    concurrency: Infinity,
+
+    customLaunchers: {
+      Chrome_travis_ci: {
+        base: 'Chrome',
+        flags: ['--no-sandbox']
+      }
+    }
+  });
+
+  if(process.env.TRAVIS){
+    config.browsers = ['Chrome_travis_ci'];
+  }
 }
