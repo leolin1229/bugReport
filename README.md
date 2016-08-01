@@ -1,4 +1,4 @@
-# bugReport [![Build Status](https://travis-ci.org/leolin1229/bugReport.svg?branch=master)](https://travis-ci.org/leolin1229/bugReport) [![npm](https://img.shields.io/npm/l/express.svg?maxAge=2592000)]()
+# bugReport [![Build Status](https://travis-ci.org/leolin1229/bugReport.svg?branch=master)](https://travis-ci.org/leolin1229/bugReport) [![Coverage Status](https://coveralls.io/repos/github/leolin1229/bugReport/badge.svg?branch=master)](https://coveralls.io/github/leolin1229/bugReport?branch=master) [![npm](https://img.shields.io/npm/l/express.svg?maxAge=2592000)]()
 
 ## 前端错误上报解决方案
 
