@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
-
+var util = require('../js/util.js');
 var Log = require('../models/log_model.js');
 
 function htmlEncode (str) {
@@ -30,7 +30,8 @@ router.use('/', bodyParser.urlencoded({ extended: false }));
 router.post('/', function(req, res, next) {
 	var log = new Log({
 		ip: req.headers['x-forwarded-for'] || req.connection.remoteAddress,
-		user_agent: req.headers['user-agent'] || '',
+		user_agent: util.getPlatform(req.headers['user-agent'] || '') + ':----' + req.headers['user-agent'],
+
 		user_id: req.body.user_id || '',
 		create_time: Date.now(),
 		resolution: req.body.resolution || '',
